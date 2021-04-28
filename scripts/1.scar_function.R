@@ -42,7 +42,7 @@ ReadFasta = function(filename){
 }
 
 #find_barcode
-FindScar = function(data,scarfull,scar){
+FindScar = function(data,scarfull,scar,cln){
   mat  =  nucleotideSubstitutionMatrix(match = 1, mismatch = -3)
   testFunction  =  function (data_in) {
     return(tryCatch(data_in, error=function(e) "unknown"))
@@ -149,7 +149,7 @@ FindScar = function(data,scarfull,scar){
   }
   
   
-  cl = makeCluster(8)
+  cl = makeCluster(cln)
   clusterEvalQ(cl,library(Biostrings))
   environment(point) <- .GlobalEnv
   environment(scarfull) <- .GlobalEnv
@@ -177,7 +177,7 @@ FindScar = function(data,scarfull,scar){
   return(list("INDEL" = scar_BC,"Scar" = data_v1))
 }
 
-FindScarBulk = function(data,scarfull,scar){
+FindScarBulk = function(data,scarfull,scar,cln){
   mat <- nucleotideSubstitutionMatrix(match = 1, mismatch = -3)
   testFunction <- function (data_in) {
     return(tryCatch(data_in, error=function(e) "unknown"))
@@ -282,7 +282,7 @@ FindScarBulk = function(data,scarfull,scar){
     return(list(del,ins,fin_dat))
   }
   library(parallel)
-  cl<-makeCluster(8)
+  cl<-makeCluster(cln)
   clusterEvalQ(cl,library(Biostrings))
   environment(point) <- .GlobalEnv
   environment(scarfull) <- .GlobalEnv
@@ -309,7 +309,7 @@ FindScarBulk = function(data,scarfull,scar){
   return(list("INDEL" = scar_BC,"Scar" = data_v1))
 }
 
-SplitScar = function(data,scarfull1,scar1,scarfull2,scar2){
+SplitScar = function(data,scarfull1,scar1,scarfull2,scar2,cln){
   mat  =  nucleotideSubstitutionMatrix(match = 1, mismatch = -3)
   testFunction  =  function (data_in) {
     return(tryCatch(data_in, error=function(e) "unknown"))
@@ -436,7 +436,7 @@ SplitScar = function(data,scarfull1,scar1,scarfull2,scar2){
   }
   
   
-  cl = makeCluster(8)
+  cl = makeCluster(cln)
   clusterEvalQ(cl,library(Biostrings))
   environment(point1) <- .GlobalEnv
   environment(point2) <- .GlobalEnv
@@ -474,7 +474,7 @@ SplitScar = function(data,scarfull1,scar1,scarfull2,scar2){
 }
 
 #data preprocess
-INDELChangeForm = function(INDEL_ranges,data,scarref,outpath){
+INDELChangeForm = function(INDEL_ranges,data,scarref,outpath,cln){
   change_form_stat<-function(indel){
     indel<-indel[c(1,2)]
     indel<-unlist(indel)
@@ -519,7 +519,7 @@ INDELChangeForm = function(INDEL_ranges,data,scarref,outpath){
       return(paste(tag_all,collapse = "_"))
     }
   }
-  cl<-makeCluster(8)
+  cl<-makeCluster(cln)
   environment(change_form_stat) <- .GlobalEnv
   environment(INDEL_ranges) <- .GlobalEnv
   environment(scarref) <- .GlobalEnv
@@ -533,7 +533,7 @@ INDELChangeForm = function(INDEL_ranges,data,scarref,outpath){
   write.csv(data,paste0(outpath,"/indel_pattern.csv"),quote=F,row.names = F)
   return(data)
 }
-INDELCons = function(INDEL_ranges,data,scarref,outpath){
+INDELCons = function(INDEL_ranges,data,scarref,outpath,cln){
   Cell.BC<-data.frame(table(data$Cell.BC))
   Cell.BC<-Cell.BC[Cell.BC$Freq>1,]
   INDEL_ranges<-INDEL_ranges[data$Cell.BC %in% Cell.BC$Var1]
@@ -556,7 +556,7 @@ INDELCons = function(INDEL_ranges,data,scarref,outpath){
     fin_dat<-data.frame(Cell.BC=x,UMI_num=UMI_num,scar_form=fin_read,UMI_pro=UMI_pro)
     return(fin_dat)
   }
-  cl<-makeCluster(8)
+  cl<-makeCluster(cln)
   clusterEvalQ(cl,library(Biostrings))
   clusterEvalQ(cl,library(stringdist))
   environment(data_1) <- .GlobalEnv
@@ -696,7 +696,7 @@ ScarToINDELRange = function(data,scar,out = F){
     return(list(fin_dat,del,ins))
   }
   
-  cl = makeCluster(8)
+  cl = makeCluster(cln)
   clusterEvalQ(cl,library(Biostrings))
   clusterEvalQ(cl,library(stringdist))
   environment(data_1) <- .GlobalEnv
@@ -972,7 +972,4 @@ DelChordPlot = function(del_ranges_df,model_names,pos_set,output){
   
   
 }
-
-
-
 
