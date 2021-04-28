@@ -7,28 +7,21 @@ sheetfile = args[2]
 outpath = args[3]
 
 
-PreData1 = function(filename,scarfull,scar,segref){
+PreData1 = function(filename,scarfull,scar){
   data0 = read.table(filename, stringsAsFactors=F, header=T)
   print("Find scar...")
   data = FindScar(data0,scarfull,scar)
   print("Done")
-  print("Scar to INDEL Range...")
-  INDEL_ranges = INDELChange(data$INDEL,data$Scar,segref,".")
-  print("Done")
 }
-PreDataBulk = function(filename,scarfull,scar,segref){
+PreDataBulk = function(filename,scarfull,scar){
   data0 = read.table(filename,stringsAsFactors=F)
   names(data0) = c("Read.Seq","UMI")
   data0$Cell.BC = data0$UMI
   print("Find scar...")
   data = FindScar(data0,scarfull,scar)
   print("Done")
-  print("Scar to INDEL Range...")
-  INDEL_ranges = INDELChange(data$INDEL,data$Scar,segref,".")
-  print("Done")
 }
-
-PreData2 = function(filename,scarfull1,scar1,scarfull2,scar2,segref1,segref2){
+PreData2 = function(filename,scarfull1,scar1,scarfull2,scar2){
   data0 = read.table(filename, stringsAsFactors=F, header=T)
   if(!dir.exists("v1")){
     dir.create("v1")
@@ -39,11 +32,13 @@ PreData2 = function(filename,scarfull1,scar1,scarfull2,scar2,segref1,segref2){
   print("Split and Find scar...")
   data = SplitScar(data0,scarfull1,scar1,scarfull2,scar2)
   print("Done")
-  print("Change Scar form for V1...")
-  INDEL_ranges1 = INDELChange(data$V1_INDEL,data$V1_Scar,segref1,"v1")
+}
+CallScar = function(INDEL,Scar,segref){
+  print("Scar to INDEL Range...")
+  data = INDELChangeForm(INDEL,Scar,segref,".")
   print("Done")
-  print("Change Scar form for V2...")
-  INDEL_ranges2 = INDELChange(data$V2_INDEL,data$V2_Scar,segref2,"v2")
+  print("Select Consensus reads...")
+  INDELCons(INDEL,data,segref,".")
   print("Done")
 }
 
@@ -80,14 +75,12 @@ if(command == "PreData1"){
   sv = ReadFasta(files["Fasta"])
   scarfull = sv$scarfull
   scar = sv$scar
-  segref = ReadCutsite(files["CutSite"])
-  PreData1(files["CB_UMI"],scarfull,scar,segref)
+  PreData1(files["CB_UMI"],scarfull,scar)
 }else if(command == "PreDataBulk"){
   sv = ReadFasta(files["Fasta"])
   scarfull = sv$scarfull
   scar = sv$scar
-  segref = ReadCutsite(files["CutSite"])
-  PreDataBulk(files["CB_UMI"],scarfull,scar,segref)
+  PreDataBulk(files["CB_UMI"],scarfull,scar)
 }else if(command == "PreData2"){
   sv1 = ReadFasta(files["Fasta1"])
   scarfull1 = sv1$scarfull
@@ -95,16 +88,18 @@ if(command == "PreData1"){
   sv2 = ReadFasta(files["Fasta2"])
   scarfull2 = sv2$scarfull
   scar2 = sv2$scar
-  segref1 = ReadCutsite(files["CutSite1"])
-  segref2 = ReadCutsite(files["CutSite2"])
-  PreData2(files["CB_UMI"],scarfull1,scar1,scarfull2,scar2,segref1,segref2)
+  PreData2(files["CB_UMI"],scarfull1,scar1,scarfull2,scar2)
+}else if(command == "CallScar"){
+  segrf = ReadCutsite(files["CutSite"])
+  INDEL = readRDS("indel.rds")
+  Scar = read.table("UMI_reads_scar_full.txt",header = T)
+  CallScar(INDEL,Scar,segref)
 }else if(command == "ScarAnalysis"){
-  image = files["INDEL"]
+  image = readRDS("image.rds")
   scarseg = ReadCutsite(files["CutSite"])
-  read_counts = read.csv(files["Cons"],header = T)
+  read_counts = read.csv("consensus.csv",header = T)
   segref = read.table(files["CutSite"])
   ScarAnalysis(image,scarseg,segref,read_counts)
 }
-
 
 
