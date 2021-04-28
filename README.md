@@ -1,8 +1,14 @@
-**aim preprocess scar single cell data and basic analysis
-author W&L
+
+
+**Aim preprocess scar single cell data and basic analysis**
+
+Author W&L
+
 create data 2021.04.28**
+
 USAGE
 **step1--preporcess data produced from cellranger to get UMI and R2 information:**
+
 ex:
 sh 0.preprocess.sh /R1.fastq /R2.fastq outpath
 
@@ -11,6 +17,7 @@ outfiles:
 "cb.umi.tsv" UMI information
 
 **step2--call scar from "CB_UMI"**
+
 if you have only one scar,just use "PreData1" command
 ex:
 Rscript main.R PreData1 samplesheet.txt outpath
@@ -23,6 +30,7 @@ where,samplesheet.txt is a sample information file contains:reference file(fasta
 
 
 **step3--some basic analysis**
+
 ex:
 Rscript main.R ScarAnalysis samplesheet.txt outpath
 
