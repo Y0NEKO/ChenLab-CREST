@@ -24,25 +24,32 @@ if you have only one scar,just use "PreData1" command
 
 ex:
 
-Rscript main.R PreData1 samplesheet.txt outpath
+Rscript main.R PreData1 samplesheet.txt outpath 8
 
 
 if you have two scars to split,use "PreData2" command
 
 ex:
 
-Rscript main.R PreData2 samplesheet.txt outpath
+Rscript main.R PreData2 samplesheet.txt outpath 8
 
 where,samplesheet.txt is a sample information file contains:reference file(fasta), cutsite, CB_UMI
 
 
-**step3--some basic analysis**
+**step3--Scar formation transform**
 
 ex:
 
-Rscript main.R ScarAnalysis samplesheet.txt outpath
+Rscript main.R CallScar samplesheet.txt outpath 8
 
-where,samplesheet.txt should contains INDEL file(image.rds)
+
+**step4--some basic analysis**
+
+ex:
+
+Rscript main.R ScarAnalysis samplesheet.txt outpath 8
+
+
 
 **Bulk:**
 
