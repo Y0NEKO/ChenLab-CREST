@@ -474,7 +474,7 @@ SplitScar = function(data,scarfull1,scar1,scarfull2,scar2){
 }
 
 #data preprocess
-INDELChange = function(INDEL_ranges,data,scarref,outpath){
+INDELChangeForm = function(INDEL_ranges,data,scarref,outpath){
   change_form_stat<-function(indel){
     indel<-indel[c(1,2)]
     indel<-unlist(indel)
@@ -519,19 +519,26 @@ INDELChange = function(INDEL_ranges,data,scarref,outpath){
       return(paste(tag_all,collapse = "_"))
     }
   }
-  
-  scar_form<-unlist(lapply(INDEL_ranges,change_form_stat))
+  cl<-makeCluster(8)
+  environment(change_form_stat) <- .GlobalEnv
+  environment(INDEL_ranges) <- .GlobalEnv
+  environment(scarref) <- .GlobalEnv
+  clusterExport(cl,c('INDEL_ranges','change_form_stat',"scarref"), envir = environment())
+  scar_form_p<-parLapply(cl,INDEL_ranges,change_form_stat)
+  stopCluster(cl)
+  scar_form<-unlist(scar_form_p)
   scar_form<-gsub(" ","",scar_form)
   data$scar_form_all<-scar_form
   data$scar_form<-unlist(lapply(scar_form,function(x){paste(unlist(strsplit(x,"_"))[2:10],collapse = "_")}))
   write.csv(data,paste0(outpath,"/indel_pattern.csv"),quote=F,row.names = F)
-  
+  return(data)
+}
+INDELCons = function(INDEL_ranges,data,scarref,outpath){
   Cell.BC<-data.frame(table(data$Cell.BC))
   Cell.BC<-Cell.BC[Cell.BC$Freq>1,]
   INDEL_ranges<-INDEL_ranges[data$Cell.BC %in% Cell.BC$Var1]
   data<-data[data$Cell.BC %in% Cell.BC$Var1,]
   data_1<-data[,c(3,4,7,9)]
-  
   max_reads_stat<-function(x,dat){
     temreads<-dat[dat$Cell.BC==x,]
     read_data<-unique(temreads[,c(2,4)])
@@ -555,8 +562,8 @@ INDELChange = function(INDEL_ranges,data,scarref,outpath){
   environment(data_1) <- .GlobalEnv
   environment(max_reads_stat) <- .GlobalEnv
   environment(Cell.BC) <- .GlobalEnv
-  clusterExport(cl,c('data_1','max_reads_stat','Cell.BC'))
-  data_con<-parLapply(cl,as.character(Cell.BC$Var1),function(x)tryCatch(max_reads_stat(x,dat=data_1), envir = environment(),error=function(e) NULL))
+  clusterExport(cl,c('data_1','max_reads_stat','Cell.BC'), envir = environment())
+  data_con<-parLapply(cl,as.character(Cell.BC$Var1),function(x)tryCatch(max_reads_stat(x,dat=data_1),error=function(e) NULL))
   stopCluster(cl)
   data_con<-data_con[!sapply(data_con,is.null)]
   data_con<-do.call("rbind",data_con)
@@ -965,9 +972,6 @@ DelChordPlot = function(del_ranges_df,model_names,pos_set,output){
   
   
 }
-
-#tree build
-
 
 
 
