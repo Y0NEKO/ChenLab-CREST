@@ -6,5 +6,3 @@ CutSite	D:/LAB/p6_chen_lab/myscript/newest_4_23/V3.cutSites
 CutSite1	D:/LAB/p6_chen_lab/myscript/newest_4_23/V3.cutSites
 CutSite2	D:/LAB/p6_chen_lab/myscript/newest_4_23/V3.cutSites
 CB_UMI	D:/LAB/p6_chen_lab/myscript/newest_4_23/CB_UMI_test
-INDEL	D:/LAB/p6_chen_lab/myscript/newest_4_23/test/v2/image.rds
-Cons	D:/LAB/p6_chen_lab/myscript/newest_4_23/test/v2/consensus.csv
