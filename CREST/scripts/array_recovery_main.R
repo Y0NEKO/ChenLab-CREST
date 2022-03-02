@@ -1,4 +1,7 @@
-source("/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/scarscript/v4.0/1.scar_function.R")
+#Recover array edit pattern
+#2022/03/02 by lhx
+
+source("1.scar_function.R")
 
 #arg1 command arg2 sheetfile arg3 outpath
 args=commandArgs(T)
