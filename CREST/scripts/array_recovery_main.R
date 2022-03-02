@@ -1,7 +1,7 @@
 #Recover array edit pattern
 #2022/03/02 by lhx
 
-source("1.scar_function.R")
+source("array_recovery_function.R")
 
 #arg1 command arg2 sheetfile arg3 outpath
 args=commandArgs(T)
