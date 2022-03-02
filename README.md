@@ -1,14 +1,17 @@
-# CREST
-Aim preprocess scar single cell data and basic analysis
+# Single-cell mapping of transcriptional and lineage landscape in developing mouse brain
 
-Author W&L
+![image]
+CREST is a Cre-driven molecular recorder for single cell lineage tracing in vivo.
+CREST reveals a spatiotemporal lineage landscape of developing ventral midbrain.
+Single clonal analysis revealed 7 archetypes of ventral midbrain progenitors with
+distinct fates.
+Single clonal analysis reveals divergent differentiation routes and corresponding
+transcriptional dynamics of floor plate cells.
+Semi-prospective clonal tracing links transcriptome states of progenitors to their
+terminal fates across stages.
 
-create data 2021.04.28**
-
-USAGE
-
+# Aanlysis overview
 step1--preporcess data produced from cellranger to get UMI and R2 information:
-
 ex: sh 0.preprocess.sh /R1.fastq /R2.fastq outpath
 
 outfiles:
