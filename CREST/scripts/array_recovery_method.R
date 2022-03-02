@@ -1,5 +1,6 @@
-#Create on 8 April, 2021
-#stat and plot
+#Array recovery method
+#2022/03/02 by lhx
+
 library(ggplot2)
 library(Biostrings)
 library(stringdist)
