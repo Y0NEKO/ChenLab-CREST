@@ -3,11 +3,15 @@
 ![image](https://github.com/Y0NEKO/ChenLab-CREST/blob/main/figure1.jpg)
 
 CREST is a Cre-driven molecular recorder for single cell lineage tracing in vivo.
+
 CREST reveals a spatiotemporal lineage landscape of developing ventral midbrain.
+
 Single clonal analysis revealed 7 archetypes of ventral midbrain progenitors with
 distinct fates.
+
 Single clonal analysis reveals divergent differentiation routes and corresponding
 transcriptional dynamics of floor plate cells.
+
 Semi-prospective clonal tracing links transcriptome states of progenitors to their
 terminal fates across stages.
 
