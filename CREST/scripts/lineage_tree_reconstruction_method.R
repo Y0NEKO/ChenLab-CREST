@@ -1,4 +1,4 @@
-#lineage tree recovery analysis functions
+#lineage tree reconstruction analysis functions
 #22.03.02 by lhx
 
 library(reshape2)
