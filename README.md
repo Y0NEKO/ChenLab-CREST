@@ -1,4 +1,4 @@
-# ChenLab
+# CREST
 Aim preprocess scar single cell data and basic analysis
 
 Author W&L
