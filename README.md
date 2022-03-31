@@ -22,7 +22,7 @@ where,samplesheet.txt is a sample information file contains:reference file(fasta
 then call consensus
 ex: Rscript array_recovery_main.R CallScar samplesheet.txt outpath 8  
 
-or use our package LinTInd to recover array, example of usage can check array_recovery_with_LinTInd.R.
+or use our package LinTInd to recover array, for details about how to use the package, see the script array_recovery_with_LinTInd.R.
 
 ## Lineage tree reconstruction
 Analyze the steps and methods in script lineage_tree_reconstruction_method.R
