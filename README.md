@@ -16,12 +16,13 @@ terminal fates across stages.
 ex: sh 0.preprocess.sh /R1.fastq /R2.fastq outpath  
 Produce CB/UMI and array sequence  
 
-## Call array edit inDel
+## array recovering
 ex: Rscript array_recovery_main.R PreData2 samplesheet.txt outpath 8  
 where,samplesheet.txt is a sample information file contains:reference file(fasta), cutsite, CB_UMI  
-
-## Get consensus array
+then call consensus
 ex: Rscript array_recovery_main.R CallScar samplesheet.txt outpath 8  
+
+or use our package LinTInd to recover array, example of usage can check array_recovery_with_LinTInd.R.
 
 ## Lineage tree reconstruction
 Analyze the steps and methods in script lineage_tree_reconstruction_method.R
