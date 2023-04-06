@@ -1,9 +1,0 @@
-File	Path
-Fasta	/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/scarscript/v4.0/V3.fasta
-Fasta1	/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/scarscript/v4.0/V3.fasta
-Fasta2	/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/scarscript/v4.0/V4.fasta
-CutSite	/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/scarscript/v4.0/V3.cutSites
-CutSite1	/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/scarscript/v4.0/V3.cutSites
-CutSite2	/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/scarscript/v4.0/V3.cutSites
-CB_UMI	/picb/sysgenomics2/people/liuhengxin/P6_lineartree/raw_data/CB_UMI_s2_v3
-Cells	/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/scarscript/v4.0/S2S3_celltype.csv
