@@ -1,0 +1,4 @@
+File	Path
+Fasta	/CREST/data/ref.fasta
+CutSite	/CREST/data/cutSites
+CB_UMI	/CREST/data/CB_UMI
