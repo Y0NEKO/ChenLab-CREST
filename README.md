@@ -17,15 +17,10 @@ ex: sh 0.preprocess.sh /R1.fastq /R2.fastq outpath
 Produce CB/UMI and array sequence  
 
 ## array recovering
-ex: Rscript array_recovery_main.R PreData2 samplesheet.txt outpath 8  
-where,samplesheet.txt is a sample information file contains:reference file(fasta), cutsite, CB_UMI  
-then call consensus
-ex: Rscript array_recovery_main.R CallScar samplesheet.txt outpath 8  
+Install and using our R package CRESTBuild:
+Usage:
 
-or use our package LinTInd to recover array, for details about how to use the package, see the script array_recovery_with_LinTInd.R.
-
-## Lineage tree reconstruction
-Analyze the steps and methods in script lineage_tree_reconstruction_method.R
+samplesheet.txt is a sample information file contains:reference file(fasta), cutsite, CB_UMI  
 
 ## other analysis
-other analysis method is in main_figure_analysis.R
+other analysis method is in BarcodeRecover.R and BarcodeAnalysis.R
