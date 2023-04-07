@@ -11,18 +11,18 @@ distinct fates.
 * Semi-prospective clonal tracing links transcriptome states of progenitors to their
 terminal fates across stages.  
 
-# Preporcess raw single cell RNA data:
+# Preporcess raw single cell RNA data
 ex: sh 0.preprocess.sh /R1.fastq /R2.fastq outpath  
 Produce CB/UMI and array sequence  
 
-# CREST Barcode recovering
-## Install and using our R package CRESTBuild:
+# CREST Barcode recovering with R package CRESTBuild
+## Installation
 ```
 devtools::install_github("Y0NEKO/ChenLab-CREST/CRESTBuild")
 ```
 ## Usage:
 ```
-mycrest = LoadFiles("data/samplesheet.txt")
+mycrest = LoadFiles("CREST/data/samplesheet.txt")
 thread = 10
 mycrest = FindScar(mycrest, thread, match = 1, mismatch = -3, gapOpening = 6, gapExtension = 1)
 mycrest = INDELChangeForm(mycrest, thread)
@@ -31,7 +31,7 @@ write.csv(mycrest@finalIndel, file = "final_scarform.csv", quote = F, row.names 
 ```
 
 Note: samplesheet.txt is a sample information file contains:reference file(fasta), cutsite, CB_UMI
-(Please see our example data)
+(Please see our example data in "CREST/data")
 
 
 # License
