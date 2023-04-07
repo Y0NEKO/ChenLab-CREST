@@ -15,7 +15,7 @@ terminal fates across stages.
 ex: sh 0.preprocess.sh /R1.fastq /R2.fastq outpath  
 Produce CB/UMI and array sequence  
 
-#CREST Barcode recovering
+# CREST Barcode recovering
 ## Install and using our R package CRESTBuild:
 ```
 devtools::install_github("Y0NEKO/ChenLab-CREST/CRESTBuild")
@@ -34,7 +34,7 @@ Note: samplesheet.txt is a sample information file contains:reference file(fasta
 (Please see our example data)
 
 
-#License
+# License
 The CRESTBuild package is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License, version 3, as published by the Free Software Foundation.
 See the GNU General Public License for more details.
 A copy of the GNU General Public License, version 3, is available at https://www.r-project.org/Licenses/GPL-3
