@@ -17,14 +17,19 @@ Produce CB/UMI and array sequence
 
 #CREST Barcode recovering
 ## Install and using our R package CRESTBuild:
-  devtools::install_github("Y0NEKO/ChenLab-CREST/CRESTBuild")
+```
+devtools::install_github("Y0NEKO/ChenLab-CREST/CRESTBuild")
+```
 ## Usage:
-  mycrest = LoadFiles("data/samplesheet.txt")
-  thread = 10
-  mycrest = FindScar(mycrest, thread, match = 1, mismatch = -3, gapOpening = 6, gapExtension = 1)
-  mycrest = INDELChangeForm(mycrest, thread)
-  mycrest = INDELCons(mycrest, thread)
-  write.csv(mycrest@finalIndel, file = "final_scarform.csv", quote = F, row.names = F)
+```
+mycrest = LoadFiles("data/samplesheet.txt")
+thread = 10
+mycrest = FindScar(mycrest, thread, match = 1, mismatch = -3, gapOpening = 6, gapExtension = 1)
+mycrest = INDELChangeForm(mycrest, thread)
+mycrest = INDELCons(mycrest, thread)
+write.csv(mycrest@finalIndel, file = "final_scarform.csv", quote = F, row.names = F)
+```
+
 Note: samplesheet.txt is a sample information file contains:reference file(fasta), cutsite, CB_UMI
 (Please see our example data)
 
