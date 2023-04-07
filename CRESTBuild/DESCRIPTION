@@ -5,6 +5,6 @@ Version: 0.1.0
 Author: Liu Hengxin
 Maintainer: The package maintainer <liuhengxin2019@sibs.ac.cn>
 Description: Build CREST INDEL dataframe from single cell RNA sequencing data
-License: MIT
+License: GPL
 Encoding: UTF-8
 LazyData: true
