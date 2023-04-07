@@ -12,8 +12,9 @@ distinct fates.
 terminal fates across stages.  
 
 # Preporcess raw single cell RNA data
-ex: sh 0.preprocess.sh /R1.fastq /R2.fastq outpath  
-Produce CB/UMI and array sequence  
+```
+sh 0.preprocess.sh /R1.fastq /R2.fastq outpath  
+```
 
 # CREST Barcode recovering with R package CRESTBuild
 ## Installation
