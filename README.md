@@ -27,7 +27,7 @@ mycrest = LoadFiles("CREST/data/samplesheet.txt")
 thread = 10
 mycrest = FindScar(mycrest, thread, match = 1, mismatch = -3, gapOpening = 6, gapExtension = 1)
 mycrest = INDELChangeForm(mycrest, thread)
-mycrest = INDELCons(mycrest, thread)
+mycrest = INDELCons(mycrest)
 write.csv(mycrest@finalIndel, file = "final_scarform.csv", quote = F, row.names = F)
 ```
 
