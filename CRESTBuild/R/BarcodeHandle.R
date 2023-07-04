@@ -2,7 +2,7 @@
 library(Biostrings)
 library(stringdist)
 library(rlist)
-library(dplyr) 
+library(dplyr)
 library(parallel)
 library(reshape2)
 library(stringr)
@@ -29,7 +29,7 @@ LoadFiles = function(filename){
   filels = read.table(filename,sep = "\t",header = T)
   files = filels$Path
   names(files) = filels$File
-  
+
   #load cutsite
   cutsiteraw = read.table(files["CutSite"])
   cutsiteranges = list()
@@ -40,7 +40,7 @@ LoadFiles = function(filename){
     cutsiterange = c("start" = cutsiterawi[1,2], "end" = cutsiterawi[1,3])
     cutsite = cutsiterawi[-1,]
     colnames(cutsite) = c("segid","start","end","group")
-    
+
     #transfer cutsite to long segment
     cutsitel = NULL
     for (j in 1:nrow(cutsite)) {
@@ -60,7 +60,7 @@ LoadFiles = function(filename){
     refseqs[[i]] = DNAString(refseqsraw[i*2,1])
     names(refseqs)[i] = substr(refseqsraw[i*2 - 1,1],2,nchar(refseqsraw[i*2 - 1, 1]))
   }
-  
+
   #load raw CBUMI
   rawCBUMI = read.table(files["CB_UMI"], stringsAsFactors=F, header=T)
   mycrest = new("CRESTData",
@@ -76,7 +76,7 @@ LoadFiles = function(filename){
 }
 # mycrest = LoadFiles("/picb/sysgenomics2/people/liuhengxin/P6_lineartree/myscript/CRESTLineage/test_data/samplesheet.txt")
 
-FindScar = function(mycrest, cln = 10, match = 1, 
+FindScar = function(mycrest, cln = 10, match = 1,
                     mismatch = -3, gapOpening = 6,
                     gapExtension = 1, minscore = NULL){
   #build alignment matrix
@@ -88,7 +88,7 @@ FindScar = function(mycrest, cln = 10, match = 1,
   refFasta = mycrest@refFasta
   cutrange = mycrest@cutsiterange
   # point1 = length(scarfull1)- 2*(scar1["end"] - scar1["start"])-6-50
-  
+
   thredls = NULL
   for (i in 1:length(refFasta)) {
     thredls = c(thredls, length(refFasta[[i]])- 2*(cutrange[[i]]["end"] - cutrange[[i]]["start"]) - 6 - 50)
@@ -98,7 +98,7 @@ FindScar = function(mycrest, cln = 10, match = 1,
   }else{
     thred = min(thredls)
   }
-  
+
   align_to_range = function(p,s,cut){
     pn = strsplit(p,"")[[1]]
     sn = strsplit(s,"")[[1]]
@@ -136,12 +136,12 @@ FindScar = function(mycrest, cln = 10, match = 1,
           in_flag = T
           ins_start = c(ins_start,index)
           width = 1
-          
+
           editseq=sn[[i]]
         }
         else{
           width = width + 1
-          
+
           editseq = paste0(editseq,sn[[i]])
         }
       }
@@ -166,19 +166,19 @@ FindScar = function(mycrest, cln = 10, match = 1,
       ins_editseq = c(ins_editseq,editseq)
       #print(paste("in stop width", width))
     }
-    
+
     ins_start = ins_start-cut
     ins_end = ins_start + ins_width
     del_start = del_start-cut
     del_end = del_end-cut
-    
+
     ins = IRanges(start = ins_start,end = ins_end)
     mcols(ins)$seq = ins_editseq
     del = IRanges(start = del_start,end = del_end)
-    
-    
+
+
     return(list("del" = del,"ins" = ins))
-    
+
   }
   testFunction  =  function (data_in) {
     return(tryCatch(data_in, error=function(e) "unknown"))
@@ -191,13 +191,13 @@ FindScar = function(mycrest, cln = 10, match = 1,
       alig = pairwiseAlignment(refFasta[[i]],
                                s3,
                                substitutionMatrix = mat,
-                               type="global-local", 
+                               type="global-local",
                                gapOpening = gapOpening,
                                gapExtension= gapExtension)
       aligls[[i]] = alig
       scores = c(scores, score(alig))
     }
-    
+
     maxscore = max(scores)
     maxi = which.max(scores)
     if(maxscore <= thred){
@@ -229,7 +229,7 @@ FindScar = function(mycrest, cln = 10, match = 1,
     fin_dat = data.frame(new.reads = r_read, scar.BC = r_scar, type = group)
     return(list("del" = del,"ins" = ins, fin_dat))
   }
-  
+
   #parallel process
   cl = makeCluster(cln,type = "FORK")
   clusterEvalQ(cl,library(Biostrings))
@@ -249,7 +249,7 @@ FindScar = function(mycrest, cln = 10, match = 1,
                 envir = environment())
   rawindel = parLapply(cl, mycrest@rawCBUMI$Read.Seq, findBarcode)
   stopCluster(cl)
-  
+
   #output
   scarcol = do.call("rbind",sapply(rawindel,function(x){return(x[3])}))
   resdata = cbind(mycrest@rawCBUMI, scarcol)
@@ -259,7 +259,7 @@ FindScar = function(mycrest, cln = 10, match = 1,
   mycrest@indels = list("INDEL" = rawindel,"Scar" = resdataf)
   # write.table(resdataf,"all_UMI_reads_scar_full.txt",quote=F,sep="\t",row.names=F)
   # saveRDS(rawindel,"indel.rds")
-  
+
   return(mycrest)
 }
 # mycrest = FindScar(mycrest)
@@ -269,7 +269,7 @@ INDELChangeForm = function(mycrest, cln = 10){
   INDEL_ranges = mycrest@indels$INDEL
   Scar =  mycrest@indels$Scar
   cutsitelong = mycrest@cutsitelong
-  
+
   #change single indel form
   change_form_stat = function(indel){
     indel = indel[c(1,2)]
@@ -319,13 +319,13 @@ INDELChangeForm = function(mycrest, cln = 10){
   environment(change_form_stat)  =  .GlobalEnv
   environment(INDEL_ranges)  =  .GlobalEnv
   environment(cutsitelong)  =  .GlobalEnv
-  
+
   types = names(cutsitelong)
   Scar$scar_form = ""
   for (i in 1:length(types)) {
     scarref = cutsitelong[names(cutsitelong) == types[i]][[1]]
     environment(scarref)  =  .GlobalEnv
-    clusterExport(cl,c('INDEL_ranges','change_form_stat',"cutsitelong","scarref"), 
+    clusterExport(cl,c('INDEL_ranges','change_form_stat',"cutsitelong","scarref"),
                   envir = environment())
     scar_form_p = parLapply(cl,INDEL_ranges[Scar$type == types[i]],
                             change_form_stat)
@@ -334,12 +334,12 @@ INDELChangeForm = function(mycrest, cln = 10){
     Scar[Scar$type == types[i],]$scar_form = scar_form
   }
   stopCluster(cl)
-  
+
   mycrest@indelPattern = Scar
   return(mycrest)
 }
 # mycrest = INDELChangeForm(mycrest)
-# 
+#
 # for (oi in unique(mycrest@indelPattern$type)) {
 #   scari = mycrest@indelPattern[mycrest@indelPattern$type == oi,]
 #   dir.create(paste0(outpath,"/",oi))
@@ -350,7 +350,7 @@ INDELCons = function(mycrest){
   Cell.BC = data.frame(table(data$Cell.BC))
   Cell.BC = Cell.BC[Cell.BC$Freq>1,]
   data = data[data$Cell.BC %in% Cell.BC$Var1,]
-  data_1 = data[,c("Cell.BC","UMI","scar_f","scar_form")]
+  data = data[,c("Cell.BC","UMI","scar_f","scar_form","type")]
   max_reads_stat = function(x,dat){
     temreads = dat[dat$Cell.BC==x,]
     #consensus
@@ -358,11 +358,11 @@ INDELCons = function(mycrest){
     read_data = read_data[order(-read_data$Freq),]
     scar_data = data.frame(table(as.character(temreads$scar_form)))
     scar_data = scar_data[order(-scar_data$Freq),]
-    
+
     #reads main
     pat.main = as.character(scar_data$Var1[1])
     reads_pro_main = round(scar_data$Freq[1]/sum(scar_data$Freq),4)
-    
+
     #umi main
     read_data_umi = unique(temreads)
     read_data_umi = data.frame(table(read_data_umi$scar_form))
@@ -370,7 +370,7 @@ INDELCons = function(mycrest){
     pat.umi = as.character(read_data_umi$Var1[1])
     umi_pro = round(read_data_umi$Freq[1]/length(unique(temreads)$UMI),4)
     reads_pro_umi = round(scar_data[which(scar_data$Var1 == pat.umi),"Freq"]/sum(scar_data$Freq),4)
-    
+
     #
     reads_num = nrow(temreads)
     umi_num = length(unique(temreads)$UMI)
@@ -385,16 +385,23 @@ INDELCons = function(mycrest){
                           "umi_num" = umi_num, stringsAsFactors = F)
     return(fin_line)
   }
-  
-  # 
+
+  #
   data_con = NULL
-  for (i in 1:length(as.character(Cell.BC$Var1))) {
-    line = max_reads_stat(as.character(Cell.BC$Var1)[i],dat=data_1)
-    data_con = rbind(data_con,line)
+  for (typei in unique(data$type)) {
+    data_1 = data[data$type == typei,]
+    cellidi = as.character(unique(data_1$Cell.BC))
+    data_coni = NULL
+    for (i in 1:length(cellidi)) {
+      line = max_reads_stat(cellidi[i],dat=data_1)
+      data_coni = rbind(data_coni,line)
+    }
+    data_coni$type = typei
+    data_con = rbind(data_con,data_coni)
   }
   mycrest@finalIndel = data_con
   return(mycrest)
-  
+
 }
 # mycrest = INDELCons(mycrest)
 
