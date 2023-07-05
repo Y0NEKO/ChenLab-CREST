@@ -7,5 +7,6 @@ Maintainer: The package maintainer <liuhengxin2019@sibs.ac.cn>
 Description: Build CREST INDEL dataframe from single cell RNA sequencing data
 License: MIT
 Encoding: UTF-8
+Depends: Biostrings,stringdist,rlist,dplyr,parallel,reshape2,stringr
 NeedsCompilation: no
-Packaged: 2023-07-04 12:45:10 UTC; NEKO
+Packaged: 2023-07-05 12:21:04 UTC; NEKO
