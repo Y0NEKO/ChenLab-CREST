@@ -4,9 +4,9 @@ R2=$2
 outpath=$3
 #sh /picb/sysgenomics2/projects/wangluyue/Xie/Dual_2nd/cellranger_count.sh ${outpath} fq
 
-umi_tools whitelist --stdin ${R1} --bc-pattern=CCCCCCCCCCCCCCCCNNNNNNNNNN --set-cell-number=10000 --log2stderr > ${outpath}/whitelist.txt
+umi_tools whitelist --stdin ${R1} --bc-pattern=CCCCCCCCCCCCCCCCNNNNNNNNNNNN --set-cell-number=18000 --log2stderr > ${outpath}/whitelist.txt
 
-umi_tools extract --bc-pattern=CCCCCCCCCCCCCCCCNNNNNNNNNN \
+umi_tools extract --bc-pattern=CCCCCCCCCCCCCCCCNNNNNNNNNNNN \
                   --stdin ${R1} \
                   --stdout ${outpath}/R1_extracted.fastq.gz \
                   --read2-in ${R2} \
