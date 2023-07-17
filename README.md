@@ -33,7 +33,7 @@ write.csv(mycrest@finalIndel, file = "final_scarform.csv", quote = F, row.names 
 
 Note: samplesheet.txt is a sample information file contains:reference file(fasta), cutsite, CB_UMI
 (Please see our example data in "CREST/data")
-
+Please be aware that the current version is under active development. We encourage you to check back regularly for updates and improvements. 
 
 # License
 The CRESTBuild package is free software; you can redistribute it and/or modify it under the terms of the GNU General Public License, version 3, as published by the Free Software Foundation.
